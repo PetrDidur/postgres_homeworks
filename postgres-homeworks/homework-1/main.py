@@ -13,6 +13,13 @@ conn = psycopg2.connect(
 """создаем курсор"""
 cursor = conn.cursor()
 
+with open("north_data/customers_data.csv", 'r', newline='') as file:
+    reader = csv.reader(file)
+    next(reader)
+    for row in reader:
+        query = 'INSERT INTO customers (customer_id, company_name, contact_name) VALUES (%s, %s, %s)'
+        cursor.execute(query, tuple(row))
+
 with open("north_data/employees_data.csv", 'r', newline='') as file:
     reader = csv.reader(file)
     next(reader)
